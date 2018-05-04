@@ -1,7 +1,7 @@
 import random
 import asyncio
 import time
-from typing import Tuple, List, Callable, Dict
+from typing import List, Callable, Dict
 from enum import Enum, auto
 
 
@@ -13,8 +13,6 @@ from kademlia.node import Node
 
 from chain import Block, BlockChain
 from chain.log import logger
-
-Address = Tuple[str, int]
 
 
 class Message(Enum):
@@ -171,7 +169,7 @@ class P2PServer(Server):
         self.tcp_server = None
         self.sync_loop = None
 
-    def listen(self, port, interface='0.0.0.0'):
+    def listen(self, port: int, interface: str='0.0.0.0') -> None:
         logger.info(f'Node {self.node.long_id} listening on {interface}:{port}')
 
         loop = asyncio.get_event_loop()

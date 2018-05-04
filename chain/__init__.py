@@ -196,7 +196,7 @@ class BlockChain:
 
     @staticmethod
     def deserialze(other: dict) -> 'BlockChain':
-        blocks = [Block(**d) for d in other['blocks']]
+        blocks = [Block(**b) for b in other['blocks']]
         return BlockChain(blocks=blocks)
 
 
@@ -209,11 +209,3 @@ if __name__ == '__main__':
         interval = time.time() - last
         last = time.time()
         print(interval)
-
-    print(b.validate_blocks(0, 1))
-    print(b.validate_blocks(1, 3))
-    print(b.is_valid_chain())
-    print(BlockChain.deserialze(b.serialize()) == b)
-    bc = BlockChain.deserialze(b.serialize())
-
-    print(b[1], b[2:7:2], b[:-1])
