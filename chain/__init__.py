@@ -1,4 +1,3 @@
-from functools import total_ordering
 from hashlib import blake2s
 from typing import List
 import time
@@ -81,6 +80,12 @@ class BlockChain:
 
     def __len__(self) -> int:
         return self.length
+
+    def __getitem__(self, key):
+        if isinstance(key, int):
+            return self.blocks[key]
+        else:
+            return self.blocks[key.start:key.stop:key.step]
 
     def __eq__(self, other) -> bool:
         if self.length != other.length:
@@ -165,10 +170,9 @@ class BlockChain:
         else:
             return False
 
-    def mine(self, data: str) -> None:
+    def mine(self, data: str) -> bool:
         next_block = self.generate_next(data)
-        result = self.add_block(next_block)
-        assert result
+        return self.add_block(next_block)
 
     @staticmethod
     def are_blocks_adjacent(block: Block, prev_block: Block) -> bool:
@@ -181,7 +185,7 @@ class BlockChain:
         args = (0, '0', int(time.time()), 'Genesis Block')
         nonce = 0
         # suppose this target's difficulty = 1
-        target = '0000ffff00000000000000000000000000000000000000000000000000000000'
+        target = '00000ffff0000000000000000000000000000000000000000000000000000000'
         while True:
             hash = Block.calculate_hash(*args, nonce=nonce, target=target)
             if Block.validate_difficulty(hash, target):
@@ -200,7 +204,7 @@ if __name__ == '__main__':
     last = time.time()
     b = BlockChain()
     print(b.latest_block)
-    for i in range(10):
+    for i in range(30):
         b.mine('a')
         interval = time.time() - last
         last = time.time()
@@ -212,4 +216,4 @@ if __name__ == '__main__':
     print(BlockChain.deserialze(b.serialize()) == b)
     bc = BlockChain.deserialze(b.serialize())
 
-    print(b.blocks)
+    print(b[1], b[2:7:2], b[:-1])

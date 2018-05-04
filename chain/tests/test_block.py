@@ -1,7 +1,7 @@
 import unittest
 import time
 
-from . import Block, BlockChain
+from chain import Block, BlockChain
 
 
 class TestBlockChain(unittest.TestCase):
