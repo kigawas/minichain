@@ -231,7 +231,7 @@ class P2PServer(Server):
                 self.broadcast_message(Message.send_latest_block(self.blockchain.latest_block))
             else:
                 logger.debug(f'Mining block failed, awaiting longest chain')
-                self.broadcast_message(Message.get_latest_block())
+                self.broadcast_message(Message.get_blockchain())
                 await asyncio.sleep(3)
 
     def sync_blockchain(self) -> None:
