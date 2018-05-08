@@ -3,7 +3,7 @@ import argparse
 import asyncio
 
 from chain.p2p import P2PServer as Server
-from chain.log import logger
+from chain.utils.log import logger
 
 parser = argparse.ArgumentParser()
 

@@ -4,13 +4,21 @@ Powered by asyncio.
 
 UTXO model transaction system not yet.
 
+# Third party dependencies
+
+1. [kademlia](https://github.com/bmuller/kademlia)
+
+2. [secp256k1-py](https://github.com/ludbb/secp256k1-py)(May require building tools, see [here](https://github.com/ludbb/secp256k1-py#installation-with-compilation))
+
+
 # How to run
+Install dependencies by running `pip install -r requirements.txt`.
 
 Open 3 terminals and run seperately:
 ```bash
-python -m chain.cli 8999 --mine --debug # block time is around 5s
-python -m chain.cli 9000 -b 127.0.0.1 8999 --debug  # no mining
-python -m chain.cli 9001 -b 127.0.0.1 9000 --debug --mine  # connecting second node
+python -m chain 8999 --mine --debug # block time is around 5s
+python -m chain 9000 -b 127.0.0.1 8999 --debug  # no mining
+python -m chain 9001 -b 127.0.0.1 9000 --debug --mine  # connecting second node
 ```
 
 # How to implement

@@ -4,7 +4,6 @@ import time
 from typing import List, Callable, Dict
 from enum import Enum, auto
 
-
 import umsgpack as msgpack
 from umsgpack import UnpackException
 from kademlia.network import Server
@@ -12,7 +11,7 @@ from kademlia.protocol import KademliaProtocol
 from kademlia.node import Node
 
 from chain import Block, BlockChain
-from chain.log import logger
+from chain.utils.log import logger
 
 
 class Message(Enum):
