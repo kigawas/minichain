@@ -1,6 +1,8 @@
 from typing import Tuple
 
-from secp256k1 import PrivateKey, PublicKey
+from coincurve.utils import get_valid_secret
+from eth_keys import keys
+from eth_utils import decode_hex
 
 __all__ = [
     'generate_keypair',
@@ -10,24 +12,27 @@ __all__ = [
 
 
 def generate_keypair() -> Tuple[str, str]:
-    k = PrivateKey()
-    return k.private_key.hex(), k.pubkey.serialize().hex()
+    k = keys.PrivateKey(get_valid_secret())
+    return k.to_hex(), k.public_key.to_hex()
 
 
 def sign(priv_key: str, msg: str) -> str:
-    k = PrivateKey(bytes.fromhex(priv_key))
-    sig = k.ecdsa_sign(msg.encode())
-    return k.ecdsa_serialize(sig).hex()
+    prv = keys.PrivateKey(decode_hex(priv_key))
+    return prv.sign_msg(msg.encode()).to_hex()
 
 
 def verify(pub_key: str, sig: str, msg: str) -> bool:
-    k = PublicKey(bytes.fromhex(pub_key), raw=True)
-    s = k.ecdsa_deserialize(bytes.fromhex(sig))
-    return k.ecdsa_verify(msg.encode(), s)
+    '''
+    >>> pri, pub = generate_keypair()
+    >>> msg = 'This is a test string.'
+    >>> verify(pub, sign(pri, msg), msg)
+    True
+    '''
+    pub = keys.PublicKey(decode_hex(pub_key))
+    signature = keys.Signature(decode_hex(sig))
+    return pub.verify_msg(msg.encode(), signature)
 
 
-# pri, pub = generate_keypair()
-# msg = 'aaaa'
-# sig = sign(pri, msg)
-# print(pri, pub, sig)
-# print(verify(pub, sig, msg))
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod()

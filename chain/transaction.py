@@ -11,11 +11,11 @@ __all__ = [
 
 
 class TxIn:
-    def __init__(self, tx_index: int, tx_hash: str, amount: Decimal, address: str, signature: str='') -> None:
+    def __init__(self, tx_index: int, tx_hash: str, amount: Decimal, pubkey: str, signature: str='') -> None:
         self.tx_index = tx_index
         self.tx_hash = tx_hash
         self.amount = amount
-        self.address = address
+        self.pubkey = pubkey
         self._signature = signature
         self._hash = self.calculate_hash()
 
@@ -25,7 +25,7 @@ class TxIn:
     def __repr__(self) -> str:
         return 'TxIn({}, {}, {}, {}, {})'.format(
             repr(self.tx_index), repr(self.tx_hash),
-            repr(self.amount), repr(self.address), repr(self.signature)
+            repr(self.amount), repr(self.pubkey), repr(self.signature)
         )
 
     def __hash__(self) -> int:
@@ -48,12 +48,12 @@ class TxIn:
             tx_index=self.tx_index,
             tx_hash=self.tx_hash,
             amount=str(self.amount),
-            address=self.address,
+            pubkey=self.pubkey,
             signature=self.signature
         )
 
     def calculate_hash(self) -> str:
-        s: bytes = f'{self.tx_index}{self.tx_hash}{self.amount}{self.address}'.encode()
+        s: bytes = f'{self.tx_index}{self.tx_hash}{self.amount}{self.pubkey}'.encode()
         return Hash(s).hexdigest()
 
     def sign(self, key: str) -> str:
@@ -63,7 +63,7 @@ class TxIn:
     def verify(self, quiet=False) -> bool:
         computed_hash = self.calculate_hash()
         try:
-            verified = elliptic.verify(self.address, self.signature, computed_hash)
+            verified = elliptic.verify(self.pubkey, self.signature, computed_hash)
             if not verified:
                 raise ValueError('Tx input cannot be verified')
         except Exception as e:
