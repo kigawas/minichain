@@ -8,7 +8,7 @@ UTXO model transaction system not yet.
 
 1. [kademlia](https://github.com/bmuller/kademlia)
 
-2. [secp256k1-py](https://github.com/ludbb/secp256k1-py)(May require building tools, see [here](https://github.com/ludbb/secp256k1-py#installation-with-compilation))
+2. [coincurve](https://github.com/ofek/coincurve)
 
 
 # How to run
@@ -25,7 +25,7 @@ python -m chain 9001 -b 127.0.0.1 9000 --debug --mine  # connecting second node
 
 This repo is using [Kademlia](https://github.com/bmuller/kademlia) for finding peers and syncing blockchain via simple TCP.
 
-You can create a UDP server and a TCP server listening at the **same** port. When you have found peers by Kademlia, directly connect to that IP and port to start syncing blockchain data.
+You can create a UDP server and a TCP server listening at the **same port**. When you have found peers by Kademlia, directly connect to that IP and port to start syncing blockchain data.
 
 A simple example about syncing the latest block:
 
