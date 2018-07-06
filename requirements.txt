@@ -16,7 +16,7 @@ jedi==0.12.0
 kademlia==1.0
 mccabe==0.6.1
 msgpack==0.5.6
-mypy==0.590
+mypy==0.610
 parso==0.2.0
 pexpect==4.5.0
 pickleshare==0.7.4
