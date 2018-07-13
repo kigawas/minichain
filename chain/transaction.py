@@ -102,7 +102,7 @@ class TxOut:
         return self._address
 
     def serialize(self) -> dict:
-        return dict(amount=self.amount, address=self.address)
+        return dict(amount=str(self.amount), address=self.address)
 
     @staticmethod
     def deserialze(other: dict) -> 'TxOut':
@@ -111,17 +111,16 @@ class TxOut:
 
 
 TX_REGULAR = 'regular'
-TX_FEE = 'fee'
-TX_REWARD = 'reward'
+TX_COINBASE = 'coinbase'
 
 ALL_TX_TYPES = [
-    TX_REGULAR, TX_FEE, TX_REWARD
+    TX_REGULAR, TX_COINBASE
 ]
 
 
 class Transaction:
 
-    _reward = 100
+    _reward = 128
 
     def __init__(self, type: str, inputs: List[TxIn]=[], outputs: List[TxOut]=[]) -> None:
         self._type = type
@@ -168,11 +167,11 @@ class Transaction:
         return sum([o.amount for o in self.outputs], Decimal(0))
 
     @property
-    def has_enough_balance(self):
-        self.total_input >= self.total_output
+    def has_enough_balance(self) -> bool:
+        return self.total_input >= self.total_output
 
     @property
-    def fee(self):
+    def fee(self) -> Decimal:
         assert self.type == TX_REGULAR
         return self.total_input - self.total_output
 
