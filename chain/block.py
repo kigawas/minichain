@@ -2,7 +2,16 @@ from chain import Hash
 
 
 class Block:
-    def __init__(self, index: int, prev_hash: str, timestamp: int, data: str, nonce: int, target: str, hash: str) -> None:
+    def __init__(
+        self,
+        index: int,
+        prev_hash: str,
+        timestamp: int,
+        data: str,
+        nonce: int,
+        target: str,
+        hash: str,
+    ) -> None:
         self.index = index
         self.prev_hash = prev_hash
         self.timestamp = timestamp
@@ -14,6 +23,9 @@ class Block:
         assert self.valid
 
     def __eq__(self, other) -> bool:
+        if not isinstance(other, Block):
+            return False
+
         if self.index != other.index:
             return False
 
@@ -23,9 +35,14 @@ class Block:
         return True
 
     def __repr__(self) -> str:
-        return 'Block({}, {}, {}, {}, {}, {}, {})'.format(
-            repr(self.index), repr(self.prev_hash), repr(self.timestamp),
-            repr(self.data), repr(self.nonce), repr(self.target), repr(self.hash)
+        return "Block({}, {}, {}, {}, {}, {}, {})".format(
+            repr(self.index),
+            repr(self.prev_hash),
+            repr(self.timestamp),
+            repr(self.data),
+            repr(self.nonce),
+            repr(self.target),
+            repr(self.hash),
         )
 
     def __hash__(self) -> int:
@@ -39,7 +56,7 @@ class Block:
             data=self.data,
             nonce=self.nonce,
             target=self.target,
-            hash=self.hash
+            hash=self.hash,
         )
 
     @property
@@ -54,12 +71,19 @@ class Block:
 
     def recalculate_hash(self) -> str:
         return Block.calculate_hash(
-            self.index, self.prev_hash, self. timestamp, self.data, self.nonce, self.target
+            self.index,
+            self.prev_hash,
+            self.timestamp,
+            self.data,
+            self.nonce,
+            self.target,
         )
 
     @staticmethod
-    def calculate_hash(index: int, prev_hash: str, timestamp: int, data: str, nonce: int, target: str) -> str:
-        s: bytes = f'{index}{prev_hash}{timestamp}{data}{nonce}{target}'.encode()
+    def calculate_hash(
+        index: int, prev_hash: str, timestamp: int, data: str, nonce: int, target: str
+    ) -> str:
+        s: bytes = f"{index}{prev_hash}{timestamp}{data}{nonce}{target}".encode()
         return Hash(s).hexdigest()
 
     @staticmethod
@@ -67,5 +91,5 @@ class Block:
         return int(hash, 16) <= int(target, 16)
 
     @staticmethod
-    def deserialze(other: dict) -> 'Block':
+    def deserialize(other: dict) -> "Block":
         return Block(**other)

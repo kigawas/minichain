@@ -7,19 +7,20 @@ from chain.utils.log import logger
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('port', type=int, help='Listening port')
+parser.add_argument("port", type=int, help="Listening port")
 parser.add_argument(
-    '-b', '--bootstrap', type=lambda x: int(x) if x.isdigit() else x, action='append',
-    metavar=('IP', 'PORT'), nargs=2, help='Starting by bootstrapping node, can specify multiple IPs'
+    "-b",
+    "--bootstrap",
+    type=lambda x: int(x) if x.isdigit() else x,
+    action="append",
+    metavar=("IP", "PORT"),
+    nargs=2,
+    help="Starting by bootstrapping node, can specify multiple IPs",
 )
 
-parser.add_argument(
-    '-m', '--mine', action='store_true', help='Mining blocks'
-)
+parser.add_argument("-m", "--mine", action="store_true", help="Mining blocks")
 
-parser.add_argument(
-    '-D', '--debug', action='store_false', help='Debug mode'
-)
+parser.add_argument("-D", "--debug", action="store_false", help="Debug mode")
 
 args = parser.parse_args()
 
@@ -31,7 +32,11 @@ loop.set_debug(args.debug)
 
 
 if args.bootstrap:
-    logger.debug(loop.run_until_complete(server.bootstrap([(ip, port) for ip, port in args.bootstrap])))
+    logger.debug(
+        loop.run_until_complete(
+            server.bootstrap([(ip, port) for ip, port in args.bootstrap])
+        )
+    )
 
 try:
     if server.mining:

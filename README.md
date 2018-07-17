@@ -4,6 +4,7 @@
 [![Travis branch](https://img.shields.io/travis/kigawas/minichain/master.svg)](https://travis-ci.org/kigawas/minichain)
 [![Codecov](https://img.shields.io/codecov/c/github/kigawas/minichain.svg)](https://codecov.io/gh/kigawas/minichain)
 
+- Using the freshest Python 3 syntax
 - UTXO model
 - P2P part is powered by `asyncio` and [`kademlia`](https://github.com/bmuller/kademlia)
 - Elliptic curve part is powered by [`coincurve`](https://github.com/ofek/coincurve)

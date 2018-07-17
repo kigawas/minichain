@@ -4,14 +4,18 @@ from typing import List
 from chain import Hash
 from chain.utils import elliptic
 
-__all__ = [
-    'TxIn', 'TxOut', 'Transaction',
-    'TX_REGULAR', 'TX_FEE', 'TX_REWARD'
-]
+__all__ = ["TxIn", "TxOut", "Transaction", "TX_REGULAR", "TX_COINBASE"]
 
 
 class TxIn:
-    def __init__(self, tx_index: int, tx_hash: str, amount: Decimal, pubkey: str, signature: str='') -> None:
+    def __init__(
+        self,
+        tx_index: int,
+        tx_hash: str,
+        amount: Decimal,
+        pubkey: str,
+        signature: str = "",
+    ) -> None:
         self.tx_index = tx_index
         self.tx_hash = tx_hash
         self.amount = amount
@@ -20,12 +24,17 @@ class TxIn:
         self._hash = self.calculate_hash()
 
     def __eq__(self, other) -> bool:
+        if not isinstance(other, TxIn):
+            return False
         return self.hash == other.hash
 
     def __repr__(self) -> str:
-        return 'TxIn({}, {}, {}, {}, {})'.format(
-            repr(self.tx_index), repr(self.tx_hash),
-            repr(self.amount), repr(self.pubkey), repr(self.signature)
+        return "TxIn({}, {}, {}, {}, {})".format(
+            repr(self.tx_index),
+            repr(self.tx_hash),
+            repr(self.amount),
+            repr(self.pubkey),
+            repr(self.signature),
         )
 
     def __hash__(self) -> int:
@@ -49,11 +58,11 @@ class TxIn:
             tx_hash=self.tx_hash,
             amount=str(self.amount),
             pubkey=self.pubkey,
-            signature=self.signature
+            signature=self.signature,
         )
 
     def calculate_hash(self) -> str:
-        s: bytes = f'{self.tx_index}{self.tx_hash}{self.amount}{self.pubkey}'.encode()
+        s: bytes = f"{self.tx_index}{self.tx_hash}{self.amount}{self.pubkey}".encode()
         return Hash(s).hexdigest()
 
     def sign(self, key: str) -> str:
@@ -65,7 +74,7 @@ class TxIn:
         try:
             verified = elliptic.verify(self.pubkey, self.signature, computed_hash)
             if not verified:
-                raise ValueError('Tx input cannot be verified')
+                raise ValueError("Tx input cannot be verified")
         except Exception as e:
             verified = False
             if not quiet:
@@ -74,8 +83,8 @@ class TxIn:
         return verified
 
     @staticmethod
-    def deserialze(other: dict) -> 'TxIn':
-        other['amount'] = Decimal(other['amount'])
+    def deserialize(other: dict) -> "TxIn":
+        other["amount"] = Decimal(other["amount"])
         return TxIn(**other)
 
 
@@ -85,10 +94,12 @@ class TxOut:
         self._address = address
 
     def __eq__(self, other) -> bool:
+        if not isinstance(other, TxOut):
+            return False
         return (self.amount, self.address) == (other.amount, other.address)
 
     def __repr__(self) -> str:
-        return f'TxOut({repr(self.amount)}, {repr(self.address)})'
+        return f"TxOut({repr(self.amount)}, {repr(self.address)})"
 
     def __hash__(self) -> int:
         return hash((self.amount, self.address))
@@ -105,24 +116,24 @@ class TxOut:
         return dict(amount=str(self.amount), address=self.address)
 
     @staticmethod
-    def deserialze(other: dict) -> 'TxOut':
-        other['amount'] = Decimal(other['amount'])
+    def deserialize(other: dict) -> "TxOut":
+        other["amount"] = Decimal(other["amount"])
         return TxOut(**other)
 
 
-TX_REGULAR = 'regular'
-TX_COINBASE = 'coinbase'
+TX_REGULAR = "regular"
+TX_COINBASE = "coinbase"
 
-ALL_TX_TYPES = [
-    TX_REGULAR, TX_COINBASE
-]
+ALL_TX_TYPES = [TX_REGULAR, TX_COINBASE]
 
 
 class Transaction:
 
     _reward = 128
 
-    def __init__(self, type: str, inputs: List[TxIn]=[], outputs: List[TxOut]=[]) -> None:
+    def __init__(
+        self, type: str, inputs: List[TxIn] = [], outputs: List[TxOut] = []
+    ) -> None:
         self._type = type
         assert self._type in ALL_TX_TYPES
         self._inputs = inputs
@@ -130,10 +141,14 @@ class Transaction:
         self._hash = self.calculate_hash()
 
     def __eq__(self, other) -> bool:
+        if not isinstance(other, Transaction):
+            return False
         return self.hash == other.hash
 
     def __repr__(self) -> str:
-        return f'Transaction({repr(self.type)}, {repr(self.inputs)}, {repr(self.outputs)})'
+        return (
+            f"Transaction({repr(self.type)}, {repr(self.inputs)}, {repr(self.outputs)})"
+        )
 
     def __hash__(self) -> int:
         return int(self.hash, 16)
@@ -182,6 +197,13 @@ class Transaction:
 
         return all([txin.valid for txin in self.inputs])
 
+    def has_same_inputs(self, other: "Transaction") -> bool:
+        for our_in in self.inputs:
+            for their_in in other.inputs:
+                if our_in == their_in:
+                    return True
+        return False
+
     def serialize(self) -> dict:
         return dict(
             type=self.type,
@@ -190,11 +212,11 @@ class Transaction:
         )
 
     def calculate_hash(self) -> str:
-        s: bytes = f'{self.type}{self.inputs}{self.outputs}'.encode()
+        s: bytes = f"{self.type}{self.inputs}{self.outputs}".encode()
         return Hash(s).hexdigest()
 
     @staticmethod
-    def deserialze(other: dict) -> 'Transaction':
-        inputs = [TxIn.deserialze(txin) for txin in other['inputs']]
-        outputs = [TxOut.deserialze(txout) for txout in other['outputs']]
-        return Transaction(other['type'], inputs, outputs)
+    def deserialize(other: dict) -> "Transaction":
+        inputs = [TxIn.deserialize(txin) for txin in other["inputs"]]
+        outputs = [TxOut.deserialize(txout) for txout in other["outputs"]]
+        return Transaction(other["type"], inputs, outputs)

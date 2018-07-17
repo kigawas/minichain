@@ -34,13 +34,17 @@ class Message(Enum):
 
     @classmethod
     def get_blocks(cls, start_index: int, end_index: int):
-        return dict(type=cls.REQUEST_BLOCKS, start_index=start_index, end_index=end_index)
+        return dict(
+            type=cls.REQUEST_BLOCKS, start_index=start_index, end_index=end_index
+        )
 
     @classmethod
     def send_blocks(cls, start_index: int, end_index: int, blocks: List[Block]):
         return dict(
-            type=cls.RECEIVE_BLOCKS, start_index=start_index, end_index=end_index,
-            blocks=[b.serialize() for b in blocks]
+            type=cls.RECEIVE_BLOCKS,
+            start_index=start_index,
+            end_index=end_index,
+            blocks=[b.serialize() for b in blocks],
         )
 
     @classmethod
@@ -49,29 +53,29 @@ class Message(Enum):
 
     @classmethod
     def send_blockchain(cls, blockchain: BlockChain) -> dict:
-        return dict(type=cls.RECEIVE_BLOCKCHAIN.value, blockchain=blockchain.serialize())
+        return dict(
+            type=cls.RECEIVE_BLOCKCHAIN.value, blockchain=blockchain.serialize()
+        )
 
 
 class UDPProtocal(KademliaProtocol):
-
     def getRefreshIDs(self) -> List[bytes]:
-        '''
+        """
         Monkey patch, update random buckets like Ethereum instead of outdated buckets
-        '''
+        """
         all_buckets = self.router.buckets
         assert all_buckets
 
         ids = []
         count = max(1, len(all_buckets) // 3)
         for bucket in random.sample(all_buckets, count):
-            rid = random.randint(*bucket.range).to_bytes(20, byteorder='big')
+            rid = random.randint(*bucket.range).to_bytes(20, byteorder="big")
             ids.append(rid)
         return ids
 
 
 class TCPProtocol(asyncio.Protocol):
-
-    def __init__(self, server: 'P2PServer') -> None:
+    def __init__(self, server: "P2PServer") -> None:
         self.server = server
         self.blockchain = self.server.blockchain
 
@@ -83,14 +87,14 @@ class TCPProtocol(asyncio.Protocol):
         # waiting for answer, so don't close transport here
 
     def handle_receive_latest_block(self, block: dict) -> None:
-        peer_block = Block.deserialze(block)
+        peer_block = Block.deserialize(block)
         latest_block = self.blockchain.latest_block
         is_added = self.blockchain.add_block(peer_block)
         if is_added:
             self.server.broadcast_message(Message.send_latest_block(peer_block))
         elif latest_block.index < peer_block.index:
             # peer is longer, ask for blockchain
-            logger.debug('Having no latest block. Asking for blockchain')
+            logger.debug("Having no latest block. Asking for blockchain")
             self.server.broadcast_message(Message.get_blockchain())
         else:
             # I'm on the edge!
@@ -102,7 +106,7 @@ class TCPProtocol(asyncio.Protocol):
         self.reply(Message.send_blockchain(self.blockchain))
 
     def handle_receive_blockchain(self, blockchain: dict):
-        other_blockchain = BlockChain.deserialze(blockchain)
+        other_blockchain = BlockChain.deserialize(blockchain)
 
         if other_blockchain.length > self.blockchain.length:
             self.blockchain.replace(other_blockchain)
@@ -112,8 +116,8 @@ class TCPProtocol(asyncio.Protocol):
     def handle_message(self, msg: bytes):
         try:
             message = msgpack.loads(msg)
-            msg_type = Message(message.pop('type'))
-            logger.info(f'Handling: {msg_type}')
+            msg_type = Message(message.pop("type"))
+            logger.info(f"Handling: {msg_type}")
             func_mapping: Dict[Message, Callable] = {
                 Message.REQUEST_LATEST_BLOCK: self.handle_request_latest_block,
                 Message.RECEIVE_LATEST_BLOCK: self.handle_receive_latest_block,
@@ -122,40 +126,39 @@ class TCPProtocol(asyncio.Protocol):
             }
             func_mapping[msg_type](**message)
         except (UnpackException, KeyError, ValueError) as e:
-            logger.error('Unknown message received')
-            logger.error(f'{e}')
+            logger.error("Unknown message received")
+            logger.error(f"{e}")
 
     def connection_made(self, transport):
-        peername = transport.get_extra_info('peername')
-        logger.debug(f'Connecting client {peername}')
+        peername = transport.get_extra_info("peername")
+        logger.debug(f"Connecting client {peername}")
         self.transport = transport
 
     def data_received(self, data: bytes):
-        logger.debug(f'Data receive from client: {data[:20]!r}')
+        logger.debug(f"Data receive from client: {data[:20]!r}")
         self.handle_message(data)
 
     def connection_lost(self, exc):
-        logger.debug('The client closed the connection')
+        logger.debug("The client closed the connection")
 
 
 class TCPClientProtocol(TCPProtocol):
-
-    def __init__(self, server: 'P2PServer', data: bytes) -> None:
+    def __init__(self, server: "P2PServer", data: bytes) -> None:
         super().__init__(server)
         self.data = data
 
     def connection_made(self, transport):
-        peername = transport.get_extra_info('peername')
-        logger.debug(f'Connecting server {peername}')
+        peername = transport.get_extra_info("peername")
+        logger.debug(f"Connecting server {peername}")
         self.transport = transport
         self.transport.write(self.data)
 
     def data_received(self, data: bytes):
-        logger.debug(f'Data receive from server: {data[:20]!r}')
+        logger.debug(f"Data receive from server: {data[:20]!r}")
         self.handle_message(data)
 
     def connection_lost(self, exc):
-        logger.debug('The server closed the connection')
+        logger.debug("The server closed the connection")
 
 
 class P2PServer(Server):
@@ -168,8 +171,8 @@ class P2PServer(Server):
         self.tcp_server = None
         self.sync_loop = None
 
-    def listen(self, port: int, interface: str='0.0.0.0') -> None:
-        logger.info(f'Node {self.node.long_id} listening on {interface}:{port}')
+    def listen(self, port: int, interface: str = "0.0.0.0") -> None:
+        logger.info(f"Node {self.node.long_id} listening on {interface}:{port}")
 
         loop = asyncio.get_event_loop()
         listen_udp = loop.create_datagram_endpoint(
@@ -187,7 +190,7 @@ class P2PServer(Server):
         super().stop()
 
         for task in asyncio.Task.all_tasks():
-            logger.debug(f'Canceling task: {task}')
+            logger.debug(f"Canceling task: {task}")
             task.cancel()
 
         if self.tcp_server:
@@ -197,13 +200,13 @@ class P2PServer(Server):
             self.sync_loop.cancel()
 
     def refresh_table(self) -> None:
-        logger.debug('Refreshing routing table')
+        logger.debug("Refreshing routing table")
         asyncio.ensure_future(self._refresh_table())
         loop = asyncio.get_event_loop()
         self.refresh_loop = loop.call_later(10, self.refresh_table)
 
     def get_mempool(self) -> str:
-        return ''
+        return ""
 
     def read_blockchain(self) -> None:
         # read from local or init
@@ -221,13 +224,17 @@ class P2PServer(Server):
         data = self.get_mempool()
         while True:
             start = time.time()
-            logger.debug('Start mining...')
+            logger.debug("Start mining...")
             mined = await self._mine(data)
             if mined:
-                logger.debug(f'Mined block after {time.time() - start:.2f}s, broadcasting...')
-                self.broadcast_message(Message.send_latest_block(self.blockchain.latest_block))
+                logger.debug(
+                    f"Mined block after {time.time() - start:.2f}s, broadcasting..."
+                )
+                self.broadcast_message(
+                    Message.send_latest_block(self.blockchain.latest_block)
+                )
             else:
-                logger.debug(f'Mining block failed, awaiting longest chain')
+                logger.debug(f"Mining block failed, awaiting longest chain")
                 self.broadcast_message(Message.get_blockchain())
                 await asyncio.sleep(3)
 
@@ -246,9 +253,11 @@ class P2PServer(Server):
     async def connect_peer(self, ip: str, port: int, data: bytes) -> None:
         loop = asyncio.get_event_loop()
         try:
-            await loop.create_connection(lambda: TCPClientProtocol(self, data), ip, port)
+            await loop.create_connection(
+                lambda: TCPClientProtocol(self, data), ip, port
+            )
         except ConnectionRefusedError:
-            logger.debug('Connection refused. Peer may be offline.')
+            logger.debug("Connection refused. Peer may be offline.")
 
     async def broadcast(self, data: bytes) -> None:
         peers = {(p.ip, p.port) for p in self.get_peers()}
