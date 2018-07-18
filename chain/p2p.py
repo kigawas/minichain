@@ -11,6 +11,7 @@ from kademlia.protocol import KademliaProtocol
 from kademlia.node import Node
 
 from chain import Block, BlockChain
+from transaction import Transaction
 from chain.utils.log import logger
 
 
@@ -55,6 +56,17 @@ class Message(Enum):
     def send_blockchain(cls, blockchain: BlockChain) -> dict:
         return dict(
             type=cls.RECEIVE_BLOCKCHAIN.value, blockchain=blockchain.serialize()
+        )
+
+    @classmethod
+    def get_transactions(cls) -> dict:
+        return dict(type=cls.REQUEST_TRANSACTIONS.value)
+
+    @classmethod
+    def send_transactions(cls, transactions: List[Transaction]) -> dict:
+        return dict(
+            type=cls.RECEIVE_TRANSACTIONS,
+            transactions=[t.serialize() for t in transactions],
         )
 
 

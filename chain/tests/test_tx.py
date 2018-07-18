@@ -71,6 +71,10 @@ class TestTx(TestCase):
         mempool.add(tx)
         self.check_serialization(Mempool, mempool, globals())
 
+        self.assertTrue(mempool.is_double_spent(tx))
+        self.assertTrue(mempool.is_double_spent(tx1))
+        self.assertFalse(mempool.is_double_spent(tx2))
+
 
 if __name__ == "__main__":
     unittest.main()

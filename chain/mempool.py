@@ -20,7 +20,7 @@ class Mempool:
     def trim_txs(self, block_txs: Set[Transaction]) -> None:
         self.transactions.difference_update(block_txs)
 
-    def is_double_spent(self, transaction) -> bool:
+    def is_double_spent(self, transaction: Transaction) -> bool:
         for tx in self.transactions:
             if tx.has_same_inputs(transaction):
                 return True
