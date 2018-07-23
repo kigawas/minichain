@@ -49,12 +49,16 @@ class BlockChain:
     def serialize(self) -> dict:
         return dict(blocks=[b.serialize() for b in self.blocks])
 
-    def replace(self, other: "BlockChain") -> None:
+    def replace(self, other: "BlockChain") -> bool:
         if not other.is_valid_chain() or self == other:
-            return
+            return False
 
-        if self.length < other.length:
-            self.blocks = other.blocks
+        if self.length >= other.length:
+            # only replace with longer chain
+            return False
+
+        self.blocks = other.blocks
+        return True
 
     def retarget(self) -> str:
         lb = self.latest_block
