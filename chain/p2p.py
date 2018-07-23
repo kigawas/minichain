@@ -260,7 +260,8 @@ class P2PServer(Server):
         asyncio.ensure_future(self.broadcast(msgpack.dumps(message)))
 
     def get_peers(self) -> List[Node]:
-        return self.protocol.router.findNeighbors(self.node, self.alpha)
+        protocol: KademliaProtocol = self.protocol
+        return protocol.router.findNeighbors(self.node, self.alpha)
 
     async def connect_peer(self, ip: str, port: int, data: bytes) -> None:
         loop = asyncio.get_event_loop()

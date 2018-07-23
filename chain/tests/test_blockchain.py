@@ -13,7 +13,7 @@ class TestBlockChain(TestCase):
         target = "f" * 64
         hash = Block.calculate_hash(*args, nonce, target)
         b = Block(*args, nonce=nonce, target=target, hash=hash)
-        self.check_serialization(Block, b, globals())
+        self.assertSerializable(Block, b, globals())
         self.assertTrue(b.valid)
         b.hash = "aaa"
         self.assertFalse(b.valid)
@@ -27,7 +27,7 @@ class TestBlockChain(TestCase):
         self.assertTrue(bc.validate_blocks(1, 3))
         self.assertTrue(bc.is_valid_chain())
         self.assertEqual(bc.blocks, bc.blocks)
-        self.check_serialization(BlockChain, bc, globals())
+        self.assertSerializable(BlockChain, bc, globals())
 
 
 if __name__ == "__main__":

@@ -31,15 +31,15 @@ class TestTx(TestCase):
         ti.sign(priv)
         self.assertTrue(ti.valid)
 
-        self.check_serialization(TxIn, ti, globals())
+        self.assertSerializable(TxIn, ti, globals())
 
     def test_txout(self):
         priv, pub = generate_keypair()
         to = TxOut(Decimal(100), "aaa")
-        self.check_serialization(TxOut, to, globals())
+        self.assertSerializable(TxOut, to, globals())
 
         to = TxOut(Decimal(100000000000000000000), "aaa")
-        self.check_serialization(TxOut, to, globals())
+        self.assertSerializable(TxOut, to, globals())
 
     def test_transaction(self):
         priv, pub = generate_keypair()
@@ -50,8 +50,7 @@ class TestTx(TestCase):
             ti.sign(priv)
 
         tx = Transaction(TX_REGULAR, inputs, outputs)
-
-        self.check_serialization(Transaction, tx, globals())
+        self.assertSerializable(Transaction, tx, globals())
 
         self.assertTrue(tx.has_enough_balance)
         self.assertEqual(tx.fee, Decimal(1))
@@ -65,11 +64,12 @@ class TestTx(TestCase):
         self.assertFalse(tx.has_same_inputs(tx2))
 
         mempool = get_mempool()
+        self.assertSerializable(Mempool, mempool, globals())
+
         self.assertIs(mempool, get_mempool())
-        mempool == 1
-        mempool.add(tx)
-        mempool.add(tx)
-        self.check_serialization(Mempool, mempool, globals())
+        self.assertEqual(mempool, get_mempool())
+        self.assertTrue(mempool.add(tx))
+        self.assertFalse(mempool.add(tx))
 
         self.assertTrue(mempool.is_double_spent(tx))
         self.assertTrue(mempool.is_double_spent(tx1))

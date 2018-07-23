@@ -11,6 +11,7 @@ class TestTx(TestCase):
         self.assertTrue(verify(pub, sign(prv, msg), msg))
 
     def test_log(self):
+        print()
         logger.info("INFO LOG")
         logger.warning("WARNING LOG")
         logger.error("ERROR LOG")
