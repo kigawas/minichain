@@ -54,9 +54,6 @@ class LogFormatter(logging.Formatter):
                 # unicode() below are harmless in python2 but will do the
                 # right conversion in python 3.
                 fg_color = curses.tigetstr("setaf") or curses.tigetstr("setf") or ""
-                if (3, 0) < sys.version_info < (3, 2, 3):
-                    fg_color = str(fg_color, "ascii")
-
                 for levelno, code in colors.items():
                     self._colors[levelno] = str(curses.tparm(fg_color, code), "ascii")
                 self._normal = str(curses.tigetstr("sgr0"), "ascii")

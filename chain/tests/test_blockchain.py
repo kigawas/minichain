@@ -1,4 +1,3 @@
-import unittest
 import time
 
 from chain import Block, BlockChain
@@ -29,6 +28,7 @@ class TestBlockChain(TestCase):
         self.assertTrue(bc.validate_blocks(0, 1))
         self.assertTrue(bc.validate_blocks(1, 3))
         self.assertTrue(bc.is_valid_chain())
+        self.assertFalse(bc.replace(bc))
         self.assertEqual(bc.blocks, bc.blocks)
         self.assertIs(bc[0], bc.blocks[0])
         self.assertEqual(len(bc), blocks_to_mine + 1)
@@ -50,7 +50,3 @@ class TestBlockChain(TestCase):
 
         self.assertIs(bc1.blocks, bc.blocks)
         self.assertEqual(bc, bc1)
-
-
-if __name__ == "__main__":
-    unittest.main()

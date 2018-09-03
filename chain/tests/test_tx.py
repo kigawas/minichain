@@ -1,4 +1,3 @@
-import unittest
 from decimal import Decimal
 import binascii
 
@@ -74,7 +73,3 @@ class TestTx(TestCase):
         self.assertTrue(mempool.is_double_spent(tx))
         self.assertTrue(mempool.is_double_spent(tx1))
         self.assertFalse(mempool.is_double_spent(tx2))
-
-
-if __name__ == "__main__":
-    unittest.main()
