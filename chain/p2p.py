@@ -71,7 +71,7 @@ class Message(Enum):
 
 
 class UDPProtocal(KademliaProtocol):
-    def getRefreshIDs(self) -> List[bytes]:
+    def get_refresh_ids(self) -> List[bytes]:
         """
         Monkey patch, update random buckets like Ethereum instead of outdated buckets
         """
