@@ -40,7 +40,7 @@ A simple example about syncing the latest block:
         1. If ahead, sending `REQUEST_BLOCKCHAIN` to peers and wait for the incoming blockchain data.
         2. Else, which means our blockchain is the freshest, do nothing.
 
-For more details, check the [`p2p.py`](https://github.com/kigawas/minichain/blob/master/chain/p2p.py) code. The logic is simple, but more powerful protocols (like raft) are based on the simple ideas behind the implementation here.
+For more details, check the [`p2p.py`](https://github.com/kigawas/minichain/blob/master/chain/p2p.py) code. The logic is simple, but more powerful protocols (like log replication of Raft protocol) are based on the simple ideas behind the implementation here.
 
 # Any reference?
 
