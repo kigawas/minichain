@@ -23,10 +23,12 @@ python -m chain 9001 -b 127.0.0.1 9000 --debug --mine  # connecting second node
 
 # How to implement
 
-This repo is using [Kademlia algorithm](https://github.com/bmuller/kademlia) for finding peers via UDP and syncing blockchain via TCP.
+## Find peers
+This repo is leveraging [Kademlia algorithm](https://github.com/bmuller/kademlia) for finding peers via UDP and syncing blockchain via TCP.
 
-You can create a UDP server and a TCP server listening at the **same port**. When you have found peers by Kademlia, directly connect to that IP and port to start syncing blockchain data.
+You can create a UDP server and a TCP server listening at the **same port** to simplify the logic. When it's found peers by Kademlia, our node just directly connects to that IP and port to start syncing blockchain data.
 
+## Sync blocks
 A simple example about syncing the latest block:
 
 1. Sending `REQUEST_LATEST_BLOCK` message to a peer or peers.
@@ -37,6 +39,8 @@ A simple example about syncing the latest block:
     3. Else, check if the block is ahead;
         1. If ahead, sending `REQUEST_BLOCKCHAIN` to peers and wait for the incoming blockchain data.
         2. Else, which means our blockchain is the freshest, do nothing.
+
+For more details, check the [`p2p.py`](https://github.com/kigawas/minichain/blob/master/chain/p2p.py) code. The logic is simple, but more powerful protocols (like raft) are based on the simple ideas behind the implementation here.
 
 # Any reference?
 
