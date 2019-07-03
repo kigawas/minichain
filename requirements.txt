@@ -8,6 +8,6 @@ eth-utils==1.6.1
 kademlia==2.2
 pycparser==2.19
 pysha3==1.0.2
-rpcudp==3.0.0
+rpcudp==4.0.0
 toolz==0.9.0
 u-msgpack-python==2.5.1
