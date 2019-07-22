@@ -46,6 +46,5 @@ try:
 except KeyboardInterrupt:
     logger.debug(server.blockchain[-5:])
     server.stop()
-    loop.run_until_complete(asyncio.sleep(3))
 finally:
     loop.close()
