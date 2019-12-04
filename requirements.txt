@@ -4,7 +4,7 @@ coincurve==13.0.0
 cytoolz==0.10.1
 eth-hash==0.2.0
 eth-keys==0.3.1
-eth-utils==1.8.1
+eth-utils==1.8.2
 kademlia==2.2
 pycparser==2.19
 pysha3==1.0.2
