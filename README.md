@@ -38,7 +38,7 @@ A simple example about syncing the latest block:
 2.  When receiving `REQUEST_LATEST_BLOCK`, send back the message `RECEIVE_LATEST_BLOCK` with block data.
 3.  When receiving `RECEIVE_LATEST_BLOCK`:
     1.  Check the received block is valid or not;
-    2.  If valid valid, add it to our blockchain and broadcast it to peers;
+    2.  If valid, add it to our blockchain and broadcast it to peers;
     3.  Else, check if the block is ahead;
         1.  If ahead, sending `REQUEST_BLOCKCHAIN` to peers and wait for the incoming blockchain data.
         2.  Else, which means our blockchain is the freshest, do nothing.
