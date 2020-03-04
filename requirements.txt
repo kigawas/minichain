@@ -6,7 +6,7 @@ eth-hash==0.2.0
 eth-keys==0.3.1
 eth-utils==1.8.4
 kademlia==2.2
-pycparser==2.19
+pycparser==2.20
 pysha3==1.0.2
 rpcudp==4.0.0
 toolz==0.10.0
