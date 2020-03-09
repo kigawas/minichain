@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "minichain"
+version = "0.1.0"
+description = "Mini blockchain in Python"
+authors = [
+    "Weiliang Li <to.be.impressive@gmail.com>"
+]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+coincurve = "^13.0.0"
+kademlia = "^2.2"
+eth_keys = "^0.3.1"
+
+[tool.poetry.dev-dependencies]
+black = "^19.10b0"
+mypy = "^0.761"
+flake8 = "^3.7.9"

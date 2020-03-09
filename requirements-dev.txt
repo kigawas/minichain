@@ -1,5 +1,0 @@
--r requirements.txt
-ipython
-flake8
-mypy
-black

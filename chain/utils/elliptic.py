@@ -1,10 +1,20 @@
+import codecs
 from typing import Tuple
 
 from coincurve.utils import get_valid_secret
 from eth_keys import keys
-from eth_utils import decode_hex
 
 __all__ = ["generate_keypair", "sign", "verify"]
+
+
+def remove_0x(s: str) -> str:
+    if s.startswith("0x") or s.startswith("0X"):
+        return s[2:]
+    return s
+
+
+def decode_hex(s: str) -> bytes:
+    return codecs.decode(remove_0x(s), "hex")  # type: ignore
 
 
 def generate_keypair() -> Tuple[str, str]:
