@@ -6,8 +6,8 @@ sudo: true
 cache: pip
 install:
 - pip install -U pip
-- pip install codecov
-- pip install -r requirements.txt
+- pip install codecov poetry
+- poetry install
 script:
 - coverage run -m doctest chain/utils/elliptic.py
 - coverage run -m unittest discover .
