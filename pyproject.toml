@@ -15,5 +15,5 @@ pysha3 = "^1.0.2"
 
 [tool.poetry.dev-dependencies]
 black = "^19.10b0"
-mypy = "^0.761"
+mypy = "^0.770"
 flake8 = "^3.7.9"
