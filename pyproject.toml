@@ -10,7 +10,7 @@ authors = [
 python = "^3.6"
 coincurve = "^13.0.0"
 kademlia = "^2.2"
-eth_keys = "^0.3.1"
+eth_keys = "^0.3.2"
 pysha3 = "^1.0.2"
 
 [tool.poetry.dev-dependencies]
