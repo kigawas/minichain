@@ -124,17 +124,18 @@ description = "Common API for Ethereum key operations."
 name = "eth-keys"
 optional = false
 python-versions = "*"
-version = "0.3.1"
+version = "0.3.2"
 
 [package.dependencies]
+eth-typing = ">=2.2.1,<3.0.0"
 eth-utils = ">=1.3.0,<2.0.0"
 
 [package.extras]
 coincurve = ["coincurve (>=7.0.0,<13.0.0)"]
-dev = ["tox (2.7.0)", "bumpversion (0.5.3)", "twine", "eth-utils (>=1.3.0,<2.0.0)", "flake8 (3.0.4)", "mypy (0.701)", "asn1tools (>=0.146.2,<0.147)", "pyasn1 (>=0.4.5,<0.5)", "pytest (3.2.2)", "hypothesis (3.30.0)", "eth-hash", "eth-hash"]
-eth-keys = ["eth-utils (>=1.3.0,<2.0.0)"]
+dev = ["tox (2.7.0)", "bumpversion (0.5.3)", "twine", "eth-utils (>=1.3.0,<2.0.0)", "eth-typing (>=2.2.1,<3.0.0)", "flake8 (3.0.4)", "mypy (0.701)", "asn1tools (>=0.146.2,<0.147)", "pyasn1 (>=0.4.5,<0.5)", "pytest (3.2.2)", "hypothesis (>=4.56.1,<5.0.0)", "eth-hash", "eth-hash"]
+eth-keys = ["eth-utils (>=1.3.0,<2.0.0)", "eth-typing (>=2.2.1,<3.0.0)"]
 lint = ["flake8 (3.0.4)", "mypy (0.701)"]
-test = ["asn1tools (>=0.146.2,<0.147)", "pyasn1 (>=0.4.5,<0.5)", "pytest (3.2.2)", "hypothesis (3.30.0)", "eth-hash", "eth-hash"]
+test = ["asn1tools (>=0.146.2,<0.147)", "pyasn1 (>=0.4.5,<0.5)", "pytest (3.2.2)", "hypothesis (>=4.56.1,<5.0.0)", "eth-hash", "eth-hash"]
 
 [[package]]
 category = "main"
@@ -329,7 +330,7 @@ python-versions = "*"
 version = "2.5.2"
 
 [metadata]
-content-hash = "a2dd008ffd3dad170dda388c0b86fbb35244e546d3cda209754a36bb2b91b241"
+content-hash = "82615b4130d75ee9131e33b9b44222f98f0e4365a3674cb0ea01db8d478fc905"
 python-versions = "^3.6"
 
 [metadata.files]
@@ -424,8 +425,8 @@ eth-hash = [
     {file = "eth_hash-0.2.0-py3-none-any.whl", hash = "sha256:1b9cb34dd3cd99c85c2bd6a1420ceae39a2eee8bf080efd264bcda8be3edecc8"},
 ]
 eth-keys = [
-    {file = "eth-keys-0.3.1.tar.gz", hash = "sha256:7df4a4a57b7c4d09860a459452cab356bb5aa166d379479104a63bec0d35d072"},
-    {file = "eth_keys-0.3.1-py3-none-any.whl", hash = "sha256:6b788eec609982bcfdd0f9e38803627e88592474f592b3817740976e9e9ea15e"},
+    {file = "eth-keys-0.3.2.tar.gz", hash = "sha256:7bbef15df4c5ef522158ee3466f4d7ecca3edf5d89854b6f54978f1ac0c7eea8"},
+    {file = "eth_keys-0.3.2-py3-none-any.whl", hash = "sha256:f7a6a3df26563e84ff155a38d1e0ec2cc069eb8e2e416e863476691760e96d07"},
 ]
 eth-typing = [
     {file = "eth-typing-2.2.1.tar.gz", hash = "sha256:cf9e5e9fb62cfeb1027823328569315166851c65c5774604d801b6b926ff65bc"},
