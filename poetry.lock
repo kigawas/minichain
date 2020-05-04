@@ -192,10 +192,10 @@ description = "Kademlia is a distributed hash table for decentralized peer-to-pe
 name = "kademlia"
 optional = false
 python-versions = "*"
-version = "2.2"
+version = "2.2.1"
 
 [package.dependencies]
-rpcudp = ">=3.0.0"
+rpcudp = ">=4.0.1"
 
 [[package]]
 category = "dev"
@@ -283,10 +283,10 @@ description = "Asynchronous RPC via UDP"
 name = "rpcudp"
 optional = false
 python-versions = "*"
-version = "4.0.0"
+version = "4.0.1"
 
 [package.dependencies]
-u-msgpack-python = ">=2.5"
+u-msgpack-python = ">=2.6"
 
 [[package]]
 category = "dev"
@@ -327,7 +327,7 @@ description = "A portable, lightweight MessagePack serializer and deserializer w
 name = "u-msgpack-python"
 optional = false
 python-versions = "*"
-version = "2.5.2"
+version = "2.6.0"
 
 [metadata]
 content-hash = "8a3582d862fa2a9bd70b29d926230034a5b8d413924e5b983919e542146aa582"
@@ -441,8 +441,8 @@ flake8 = [
     {file = "flake8-3.7.9.tar.gz", hash = "sha256:45681a117ecc81e870cbf1262835ae4af5e7a8b08e40b944a8a6e6b895914cfb"},
 ]
 kademlia = [
-    {file = "kademlia-2.2-py3-none-any.whl", hash = "sha256:2aef9b11af12fc1cf1d47ac929e349a70a15d2202a61f755720fa5e47d69a16f"},
-    {file = "kademlia-2.2.tar.gz", hash = "sha256:c28ae87e8f04cee15e06e85d83213b0d924ed4e60da0fb7b3c468df8619c6299"},
+    {file = "kademlia-2.2.1-py3-none-any.whl", hash = "sha256:620bdfe5e686a0226d2ef515ce2ed0bfa36d002866997a8a615200205016ab19"},
+    {file = "kademlia-2.2.1.tar.gz", hash = "sha256:364f50d75eb528ec504a357d86e2a5fca3eae9b56cdc29f5306b8e1d35043ef3"},
 ]
 mccabe = [
     {file = "mccabe-0.6.1-py2.py3-none-any.whl", hash = "sha256:ab8a6258860da4b6677da4bd2fe5dc2c659cff31b3ee4f7f5d64e79735b80d42"},
@@ -531,8 +531,8 @@ regex = [
     {file = "regex-2020.2.20.tar.gz", hash = "sha256:9e9624440d754733eddbcd4614378c18713d2d9d0dc647cf9c72f64e39671be5"},
 ]
 rpcudp = [
-    {file = "rpcudp-4.0.0-py3-none-any.whl", hash = "sha256:bffdd5c87b660821134c62169f405b6640275fa0e9d6f053f3ec640b364b7925"},
-    {file = "rpcudp-4.0.0.tar.gz", hash = "sha256:2960cb91f5e4c9dec43b4a6a96857d5474edbfc00abd2b63a6d29fc9761c326c"},
+    {file = "rpcudp-4.0.1-py3-none-any.whl", hash = "sha256:4dd722aea037cbc2738478effdb255d5908aa8036c646e5916b2f7df802903b5"},
+    {file = "rpcudp-4.0.1.tar.gz", hash = "sha256:03553998447884a79322575ca48b3dfde0853299cdf43865de169d2bfab8f5b1"},
 ]
 toml = [
     {file = "toml-0.10.0-py2.7.egg", hash = "sha256:f1db651f9657708513243e61e6cc67d101a39bad662eaa9b5546f789338e07a3"},
@@ -571,6 +571,6 @@ typing-extensions = [
     {file = "typing_extensions-3.7.4.1.tar.gz", hash = "sha256:091ecc894d5e908ac75209f10d5b4f118fbdb2eb1ede6a63544054bb1edb41f2"},
 ]
 u-msgpack-python = [
-    {file = "u-msgpack-python-2.5.2.tar.gz", hash = "sha256:09c85a8af77376034396681e76bf30c249a4fd8e5ebb239f8a468d3655f210d0"},
-    {file = "u_msgpack_python-2.5.2-py2.py3-none-any.whl", hash = "sha256:d9a5634753c433676baa08a1854896b43e94d50c42da9cbd505a0d1dbd367a5a"},
+    {file = "u-msgpack-python-2.6.0.tar.gz", hash = "sha256:754edb07eaee39a9686a99823892e3a1be4e0948d9cc5c717946750c27643c9c"},
+    {file = "u_msgpack_python-2.6.0-py2.py3-none-any.whl", hash = "sha256:31d8e1aa9fffeafd40693c7ed80f10e081f86aef48193d77637f06abc9b7a7b2"},
 ]
