@@ -20,7 +20,7 @@ parser.add_argument(
 
 parser.add_argument("-m", "--mine", action="store_true", help="Mining blocks")
 
-parser.add_argument("-D", "--debug", action="store_false", help="Debug mode")
+parser.add_argument("-D", "--debug", action="store_true", help="Debug mode")
 
 args = parser.parse_args()
 
