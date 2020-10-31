@@ -13,9 +13,9 @@ class TestBlockChain(TestCase):
         hash = Block.calculate_hash(*args, nonce, target)
         b = Block(*args, nonce=nonce, target=target, hash=hash)
         self.assertSerializable(Block, b, globals())
-        self.assertTrue(b.valid)
+        self.assertTrue(b.is_valid())
         b.hash = "aaa"
-        self.assertFalse(b.valid)
+        self.assertFalse(b.is_valid())
 
     def test_blockchain(self):
         bc = BlockChain()

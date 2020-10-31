@@ -5,7 +5,7 @@ from chain.transaction import TxIn, TxOut, Transaction, TX_REGULAR
 from chain.mempool import get_mempool, Mempool
 from chain.utils.elliptic import generate_keypair
 
-from chain.tests import TestCase
+from . import TestCase
 
 
 class TestTx(TestCase):
