@@ -8,7 +8,7 @@ from chain.block import Block
 class BlockChain:
     _interval = 5  # 5s per block
 
-    def __init__(self, blocks: List[Block] = []) -> None:
+    def __init__(self, blocks: List[Block] = []):
         self.blocks = [BlockChain.genesis()] if not blocks else blocks
 
     def __len__(self) -> int:
@@ -33,6 +33,33 @@ class BlockChain:
 
     def __hash__(self) -> int:
         return hash(sum([hash(b) for b in self.blocks]))
+
+    @staticmethod
+    def are_blocks_adjacent(block: Block, prev_block: Block) -> bool:
+        is_valid_block = block.is_valid()
+        is_valid_next = (
+            block.index == prev_block.index + 1 and block.prev_hash == prev_block.hash
+        )
+        return is_valid_block and is_valid_next
+
+    @staticmethod
+    def genesis() -> Block:
+        args = (0, "0", int(time.time()), "Genesis Block")
+        nonce = 0
+        # suppose this target's difficulty = 1
+        target = "00000ffff0000000000000000000000000000000000000000000000000000000"
+        while True:
+            hash = Block.calculate_hash(*args, nonce=nonce, target=target)
+            if Block.validate_difficulty(hash, target):
+                break
+            else:
+                nonce += 1
+        return Block(*args, nonce=nonce, target=target, hash=hash)
+
+    @classmethod
+    def deserialize(cls, other: dict):
+        blocks = [Block(**b) for b in other["blocks"]]
+        return cls(blocks=blocks)
 
     @property
     def interval(self) -> int:
@@ -83,7 +110,7 @@ class BlockChain:
     def validate_blocks(self, left: int, right: int):
         assert 0 <= left < right < self.length
         mini_blocks = self.blocks[left : right + 1]
-        are_all_valid = all([b.valid for b in mini_blocks])
+        are_all_valid = all([b.is_valid() for b in mini_blocks])
         are_all_adjacent = all(
             [
                 BlockChain.are_blocks_adjacent(cur_block, prev_block)
@@ -112,7 +139,7 @@ class BlockChain:
         return BlockChain.are_blocks_adjacent(block, self.latest_block)
 
     def add_block(self, block: Block) -> bool:
-        if block.valid and self.is_next_block(block):
+        if block.is_valid() and self.is_next_block(block):
             self.blocks.append(block)
             return True
         else:
@@ -121,30 +148,3 @@ class BlockChain:
     def mine(self, data: str) -> bool:
         next_block = self.generate_next(data)
         return self.add_block(next_block)
-
-    @staticmethod
-    def are_blocks_adjacent(block: Block, prev_block: Block) -> bool:
-        is_valid_block = block.valid
-        is_valid_next = (
-            block.index == prev_block.index + 1 and block.prev_hash == prev_block.hash
-        )
-        return is_valid_block and is_valid_next
-
-    @staticmethod
-    def genesis() -> Block:
-        args = (0, "0", int(time.time()), "Genesis Block")
-        nonce = 0
-        # suppose this target's difficulty = 1
-        target = "00000ffff0000000000000000000000000000000000000000000000000000000"
-        while True:
-            hash = Block.calculate_hash(*args, nonce=nonce, target=target)
-            if Block.validate_difficulty(hash, target):
-                break
-            else:
-                nonce += 1
-        return Block(*args, nonce=nonce, target=target, hash=hash)
-
-    @staticmethod
-    def deserialize(other: dict) -> "BlockChain":
-        blocks = [Block(**b) for b in other["blocks"]]
-        return BlockChain(blocks=blocks)

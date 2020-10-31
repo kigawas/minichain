@@ -1,7 +1,7 @@
 from chain.utils.elliptic import generate_keypair, sign, verify
 from chain.utils.log import logger
 
-from chain.tests import TestCase
+from . import TestCase
 
 
 class TestUtils(TestCase):
@@ -18,4 +18,4 @@ class TestUtils(TestCase):
         logger.error("ERROR LOG")
         logger.debug("DEBUG LOG")
         logger.info(self)
-        logger.error(1, 2)
+        logger.error((1, 2))
