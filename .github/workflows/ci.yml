@@ -25,7 +25,7 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
       - run: poetry install
       - name: Run test
-        run: poetry run pytest --cov=chain -s
+        run: poetry run pytest --cov=chain --cov-report=xml -s
       - name: Run doc test
         run: poetry run python -m doctest chain/utils/elliptic.py
       - uses: codecov/codecov-action@v1
