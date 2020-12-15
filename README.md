@@ -1,7 +1,7 @@
 # minichain
 
 [![License](https://img.shields.io/github/license/kigawas/minichain.svg)](https://github.com/kigawas/minichain)
-[![Travis branch](https://img.shields.io/travis/kigawas/minichain/master.svg)](https://travis-ci.org/kigawas/minichain)
+[![CI](https://img.shields.io/github/workflow/status/kigawas/minichain/Build)](https://github.com/kigawas/minichain/actions)
 [![Codecov](https://img.shields.io/codecov/c/github/kigawas/minichain.svg)](https://codecov.io/gh/kigawas/minichain)
 
 - Using the freshest Python 3 syntax
