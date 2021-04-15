@@ -12,7 +12,7 @@
 
 ## How to run
 
-Install dependencies first by running `pip install -r requirements.txt`.
+Install dependencies first by running `poetry install`.
 
 Open 3 terminals and run separately:
 
