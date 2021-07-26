@@ -10,7 +10,7 @@ description = "Mini blockchain in Python"
 [tool.poetry.dependencies]
 python = "^3.8"
 # 3rd party
-coincurve = "^15.0.0"
+coincurve = "^15.0.1"
 eth_keys = "^0.3.3"
 kademlia = "^2.2.2"
 pysha3 = "^1.0.2"
