@@ -16,7 +16,7 @@ kademlia = "^2.2.2"
 pysha3 = "^1.0.2"
 
 [tool.poetry.dev-dependencies]
-black = "^21.12b0"
+black = "^22.1"
 flake8 = "^4.0.1"
 mypy = "^0.931"
 pytest = "^6.2.5"
