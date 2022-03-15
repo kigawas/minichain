@@ -18,7 +18,7 @@ pysha3 = "^1.0.2"
 [tool.poetry.dev-dependencies]
 black = "^22.1"
 flake8 = "^4.0.1"
-mypy = "^0.940"
+mypy = "^0.941"
 pytest = "^7.1.0"
 pytest-cov = "^3.0.0"
 
